@@ -1,6 +1,10 @@
 const express = require('express');
+const Dbconnect = require('./config/db');
 
 const app = express();
+
+//DB connect
+Dbconnect();
 
 app.get('/', (req, res) => res.json({ msg: 'Welcome' }));
 
