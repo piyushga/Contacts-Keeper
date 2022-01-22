@@ -13,7 +13,7 @@ const ContactItem = ({ contact }) => {
   };
 
   const onEdit = () => {
-    context.setCurrent();
+    context.setCurrent(contact);
   };
 
   return (

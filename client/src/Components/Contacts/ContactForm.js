@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ContactContext from '../../Context/contact/ContactContext';
 
 const initialContact = {
@@ -11,6 +11,19 @@ const initialContact = {
 export const ContactForm = () => {
   const context = useContext(ContactContext);
 
+  const { current } = context;
+
+  useEffect(() => {
+    if (current !== null) setContact(current);
+    else
+      setContact({
+        name: '',
+        email: '',
+        phone: '',
+        type: 'personal',
+      });
+  }, [context, current]);
+
   const [contact, setContact] = useState(initialContact);
 
   const { name, email, phone, type } = contact;
@@ -20,19 +33,21 @@ export const ContactForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    context.addContact(contact);
-    setContact({
-      name: '',
-      email: '',
-      phone: '',
-      type: 'personal',
-    });
+    if (current === null) context.addContact(contact);
+    else context.UpdateContact(contact);
+
+    Clear();
+  };
+
+  const Clear = (e) => {
+    e.preventDefault();
+    context.clearCurrent();
   };
 
   return (
     <form onSubmit={onSubmit}>
       <h2 className='text-primary'>
-        {/* {current ? 'Edit Contact' : 'Add Contact'} */}
+        {current ? 'Update Contact' : 'Add Contact'}
       </h2>
       <input
         type='text'
@@ -75,15 +90,17 @@ export const ContactForm = () => {
       <div>
         <input
           type='submit'
-          value={'Add Contact'}
+          value={current ? 'Update Contact' : 'Add Contact'}
           className='btn btn-primary btn-block'
         />
       </div>
-      {/* {current && ( */}
-      <div>
-        <button className='btn btn-light btn-block'>Clear</button>
-      </div>
-      {/* )} */}
+      {current && (
+        <div>
+          <button className='btn btn-light btn-block' onClick={Clear}>
+            Clear
+          </button>
+        </div>
+      )}
     </form>
   );
 };
