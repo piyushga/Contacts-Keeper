@@ -34,7 +34,10 @@ export const ContactForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (current === null) context.addContact(contact);
-    else context.UpdateContact(contact);
+    else {
+      context.UpdateContact(contact);
+      context.clearCurrent();
+    }
 
     Clear();
   };
