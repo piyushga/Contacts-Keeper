@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const authLinks = (
     <>
-      <li>Hello {user && user.name}</li>
+      <li>HI {user && user.name}</li>
       <li>
         <a onClick={onLogout} href='#!'>
           <i className='fas fa-sign-out-alt'></i>{' '}
